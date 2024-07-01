@@ -1,10 +1,12 @@
+import { GET_REQUEST, GET_SUCCESS, GET_FAIL } from "../actions";
+
 const homePageReducer = (state, action) => {
   switch (action.type) {
-    case "GET_REQUEST":
+    case GET_REQUEST:
       return { ...state, loading: true, };
-    case "GET_SUCCESS":
+    case GET_SUCCESS:
       return { ...state, products: action.payload, loading: false, };
-    case "GET_FAIL":
+    case GET_FAIL:
       return { ...state, loading: false, error: action.payload,
       };
     default:
@@ -12,4 +14,4 @@ const homePageReducer = (state, action) => {
   }
 };
 
-export default homePageReducer
+export default homePageReducer;

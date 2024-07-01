@@ -3,9 +3,24 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import Rating from '../shared/Rating';
-// import Rating from 'react-rating';
+import { useContext } from 'react';
+import { Store } from '../../store';
+import { addToCart, getError } from '../../utils';
+import { toast } from 'react-toastify';
 
 const Product = ({ product }) => {
+
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { cart: { cartItems } } = state;
+
+  const addToCartHandler = async (product, cartItems, ctxDispatch) => {
+    try {
+      await addToCart(product, cartItems, ctxDispatch);
+    } catch (error) {
+      toast.error(getError(error));
+    }
+  };
+
   return (
     <Card className="product-card">
       <Link to={`./products/${product.token}`}>
@@ -17,17 +32,13 @@ const Product = ({ product }) => {
             {product.title}
           </Card.Title>
         </Link>
-        {/* <div className="rating">
-          <Rating start={0} stop={5} readonly initialRating={product.rating.rate} emptySymbol="far fa-star" fullSymbol="fas fa-star" />
-          <span>{` ${product.rating.count} reviews`}</span>
-        </div> */}
         <Rating rating={product.rating.rate} numReviews={product.rating.count} />
         <Card.Text>
           {product.price}$
         </Card.Text>
         {
           product.countInStock > 0
-            ? <Button className="btn-primary" >Add to cart</Button>
+            ? <Button className="btn-primary" onClick={() => addToCartHandler(product, cartItems, ctxDispatch)}>Add to cart</Button>
             : <Button variant="light" disabled >Out Of Stock</Button>
         }
       </Card.Body>
