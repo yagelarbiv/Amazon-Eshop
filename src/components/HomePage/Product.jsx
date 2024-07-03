@@ -6,7 +6,7 @@ import Rating from '../shared/Rating';
 import { useContext } from 'react';
 import { Store } from '../../store';
 import { addToCart, getError } from '../../utils';
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const Product = ({ product }) => {
 
@@ -23,15 +23,15 @@ const Product = ({ product }) => {
 
   return (
     <Card className="product-card">
-      <Link to={`./products/${product.token}`}>
+      <Link to={`/product/${product.token}`}>
         <Card.Img style={{ padding: "20px" }} variant="top" src={product.image} alt={product.title} />
       </Link>
       <Card.Body className="card-body">
-        <Link to={`./products/${product.token}`}>
-          <Card.Title style={{ maxHeight: '50px', overflow: 'hidden' }}>
+        <Card.Title>
+          <Link to={`/product/${product.token}`}>
             {product.title}
-          </Card.Title>
-        </Link>
+          </Link>
+        </Card.Title>
         <Rating rating={product.rating.rate} numReviews={product.rating.count} />
         <Card.Text>
           {product.price}$

@@ -1,10 +1,10 @@
-
 import axios from 'axios';
 import { ADD_TO_CART } from './actions';
+import { toast } from "react-toastify";
 
 export const getError = (error) => {
   console.log(error);
-  return (error.message && error.response.data.mesage ? error.response.data.mesage : error.message);
+  return (error.message && error.response.data.message ? error.response.data.message : error.message);
 }
 
 export const addToCart = async (product, cartItems, ctxDispatch) => {
@@ -13,6 +13,7 @@ export const addToCart = async (product, cartItems, ctxDispatch) => {
   try {
     const { data } = await axios.get(`/api/v1/products/${product._id}`);
     if (data.countInStock < quantity) {
+      toast.error('Sorry. Product is out of stock');
       throw new Error('Sorry. Product is out of stock');
     }
     ctxDispatch({
@@ -20,6 +21,7 @@ export const addToCart = async (product, cartItems, ctxDispatch) => {
       payload: { ...product, quantity },
     });
   } catch (error) {
-    throw new Error(getError(error));
+    toast.error(error);
+    throw new Error(error);
   }
 };
