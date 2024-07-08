@@ -1,9 +1,9 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Form from 'react-bootstrap/Form';
 import Button from "react-bootstrap/Button";
 import Title from "../components/shared/title";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from 'axios';
 import { toast } from "react-toastify";
 import { getError } from "../utils";
@@ -14,21 +14,38 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { dispatch: ctxDispatch } = useContext(Store);
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { userInfo } = state;
+
+  const { search } = useLocation();
+  const redirectInUrl = new URLSearchParams(search).get('redirect');
+  const redirect = redirectInUrl ? redirectInUrl : '/';
 
 const submitHandler = async (e) => {
   e.preventDefault();
   try {
-    const { data } = await axios.post("/api/v1/users/signin", { email, password });
+    const { data } = await axios.post("/api/v1/users/signin", { 
+      email, 
+      password 
+    });
 
-    ctxDispatch({ type: USER_SIGNIN, payload: data });
+    ctxDispatch({ 
+      type: USER_SIGNIN, 
+      payload: data 
+    });
     localStorage.setItem('userInfo', JSON.stringify(data));
 
-    navigate('/');
+    navigate(redirect);
   } catch (error) {
     toast.error(getError(error));
   }
-};
+  };
+
+  useEffect(() => {
+    if (userInfo) {
+      navigate(redirect);
+    }
+  }, [navigate, redirect, userInfo]);
 
   return (
     <Container className="small-container">
@@ -51,7 +68,7 @@ const submitHandler = async (e) => {
         </div>
 
         <div className="mb-3">
-          new Customer? <Link to={"/SignUp"} >Create Your Account</Link>
+          new Customer? <Link to={`/SignUp?redirect=${redirect}`} >Create Your Account</Link>
         </div>
 
         <div className="mb-3">

@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import Form from 'react-bootstrap/Form';
 import Button from "react-bootstrap/Button";
 import Title from "../components/shared/title";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { Store } from "../store";
 import { toast } from "react-toastify";
@@ -16,15 +16,19 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const { search } = useLocation();
+  const redirectInUrl = new URLSearchParams(search).get('redirect');
+  const redirect = redirectInUrl ? redirectInUrl : '/';
+
   const navigate = useNavigate();
   const { state, dispatch: CtxDispatch } = useContext(Store);
   const { userInfo } = state;
 
   useEffect(() => {
     if (userInfo) {
-      navigate('/');
+      navigate(redirect);
     }
-  }, [navigate, userInfo]);
+  }, [navigate, userInfo, redirect]);
   
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -35,7 +39,7 @@ const SignUp = () => {
       CtxDispatch({ type: USER_SIGNIN, payload: data });
       localStorage.setItem('userInfo', JSON.stringify(data));
 
-      navigate('/');
+      navigate(redirect);
     } catch (error) {
       toast.error(getError(error));
     }
@@ -74,7 +78,8 @@ const SignUp = () => {
         </div>
 
         <div className="mb-3">
-        Already Have An Account? {" "}<Link to={"/signIn"} >Sign in Here</Link>
+        Already have an account? {" "}
+        <Link to={`/signIn?redirect=${redirect}`} >Sign-In Here</Link>
         </div>
       </Form>
     </Container>

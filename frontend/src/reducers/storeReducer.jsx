@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, USER_LOGOUT, USER_SIGNIN } from "../actions";
+import { ADD_TO_CART, REMOVE_FROM_CART, SAVE_PAYMENT_METHOD, SAVE_SHIPPING_ADDRESS, USER_LOGOUT, USER_SIGNIN } from "../actions";
 import PropType from 'prop-types';
 
 const storeReducer = (state, { type, payload }) => {
@@ -35,6 +35,28 @@ const storeReducer = (state, { type, payload }) => {
         }
       }
     }
+    case SAVE_SHIPPING_ADDRESS: {
+      localStorage.setItem("shippingAddress", JSON.stringify(payload));
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          shippingAddress: {
+            ...payload
+          }
+        },
+      };
+    }
+    case SAVE_PAYMENT_METHOD: {
+      localStorage.setItem("paymentMethod", JSON.stringify(payload));
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          paymentMethod: payload
+        }
+      }
+    }
     case USER_LOGOUT: {
       return {
         ...state,
@@ -47,12 +69,12 @@ const storeReducer = (state, { type, payload }) => {
       }
     }
     default:
-      return state
+      return { ...state }
   }
 };
 export default storeReducer;
 
 storeReducer.propTypes = {
   type: PropType.string,
-  payload: PropType.object
+  payload: PropType.object,
 };

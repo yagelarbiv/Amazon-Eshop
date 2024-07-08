@@ -1,21 +1,23 @@
 import NavBar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import { LinkContainer } from "react-router-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { SearchBox } from "./SearchBox";
 import NavDropDown from "react-bootstrap/NavDropdown";
 import { Store } from "../../store.jsx";
 import { useContext } from 'react';
 import Badge from 'react-bootstrap/Badge';
 import { USER_LOGOUT } from "../../actions.jsx";
-const Header = () => {
 
+const Header = () => {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
-    userInfo, 
+    userInfo,
     cart: { cartItems },
   } = state;
+
   const navigate = useNavigate();
+  const location = useLocation();
 
   const logoutHandler = () => {
     ctxDispatch({ type: USER_LOGOUT },);
@@ -30,6 +32,13 @@ const Header = () => {
     <header>
       <NavBar bg="dark" variant="dark">
         <Container>
+          <Link onClick={() => navigate(-1)} >
+            {
+              location.pathname !== '/' && (
+                <i className="fas fa-arrow-left text-white align-arrow-right"></i>
+              )
+            }
+          </Link>
           <LinkContainer to="/">
             <NavBar.Brand>
               <img
@@ -47,7 +56,7 @@ const Header = () => {
                 cartItems.length > 0 && (
                   <Badge pill bg="danger" className="position-absolute top-0 translate-middle" text="light" >
                     {cartItems.reduce((a, c) => a + c.quantity, 0)}
-                    </Badge>
+                  </Badge>
                 )
               }
             </Link>
@@ -72,7 +81,7 @@ const Header = () => {
               </NavDropDown>
             ) : (
               <NavDropDown className="text-white" title={"Enter"} id="basic-nav-dropdown">
-                <LinkContainer to="/singin">
+                <LinkContainer to="/signin">
                   <NavDropDown.Item>
                     Sign In
                   </NavDropDown.Item>

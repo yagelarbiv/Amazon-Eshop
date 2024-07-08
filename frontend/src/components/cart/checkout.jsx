@@ -2,9 +2,8 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Card from 'react-bootstrap/Card';
 import Button from "react-bootstrap/Button";
 import PropType from 'prop-types';
-import { Link } from 'react-router-dom';
 
-const CheckOut = ({ cartItems }) => {
+const CheckOut = ({ cartItems, checkoutHandler }) => {
   return (
     <div>
       <Card>
@@ -22,15 +21,14 @@ const CheckOut = ({ cartItems }) => {
             </ListGroup.Item>
             <ListGroup.Item>
               <div className="d-grid">
-                <Link to={`/checkout`}>
-                  <Button
-                    type="button"
-                    variant="primary"
-                    disabled={cartItems.length === 0}
-                  >
-                    Proceed to Checkout
-                  </Button>
-                </Link>
+                <Button
+                  type="button"
+                  variant="primary"
+                  disabled={cartItems.length === 0}
+                  onClick={() => checkoutHandler()}
+                >
+                  Proceed to Checkout
+                </Button>
               </div>
             </ListGroup.Item>
           </ListGroup>
@@ -42,6 +40,7 @@ const CheckOut = ({ cartItems }) => {
 
 CheckOut.propTypes = {
   cartItems: PropType.array,
+  checkoutHandler: PropType.func
 };
 
 export default CheckOut

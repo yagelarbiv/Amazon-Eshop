@@ -27,7 +27,7 @@ const Product = ({ product }) => {
         <Card.Img style={{ padding: "20px" }} variant="top" src={product.image} alt={product.title} />
       </Link>
       <Card.Body className="card-body">
-        <Card.Title>
+        <Card.Title className="max-h-6">
           <Link to={`/product/${product.token}`}>
             {product.title}
           </Link>
