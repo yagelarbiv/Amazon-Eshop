@@ -1,4 +1,4 @@
-import { ADD_TO_CART, USER_LOGOUT, USER_SIGNIN } from "../actions";
+import { ADD_TO_CART, REMOVE_FROM_CART, USER_LOGOUT, USER_SIGNIN } from "../actions";
 import PropType from 'prop-types';
 
 const storeReducer = (state, { type, payload }) => {
@@ -15,6 +15,17 @@ const storeReducer = (state, { type, payload }) => {
       const cartItems = existingItem ?
         state.cart.cartItems.map((item) => item._id === existingItem._id ? (newItem) : (item)) :
         ([...state.cart.cartItems, newItem]);
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          cartItems
+        }
+      }
+    }
+    case REMOVE_FROM_CART: {
+      const cartItems = state.cart.cartItems.filter((item) => item._id !== payload._id);
       localStorage.setItem("cartItems", JSON.stringify(cartItems));
       return {
         ...state,

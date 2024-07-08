@@ -22,7 +22,7 @@ const Cart = () => {
         </MessageBox>
       ) : (
         <div>
-          <h1>{userInfo ? userInfo.name : 'Guest' }`s Shopping Cart</h1>
+          <h1>{userInfo ? userInfo.name : 'Guest'}`s Shopping Cart</h1>
           <Row>
             <Col md={9}>
               <ItemsInCart cartItems={cartItems} ctxDispatch={ctxDispatch} />

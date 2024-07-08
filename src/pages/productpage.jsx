@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Loading from '../components/shared/Loading';
 import MessageBox from '../components/shared/MessageBox';
-import CartDescription from './../components/shared/cartdescription';
+import CartDescription from './../components/productpage/cartdescription';
 import ProductDescription from "../components/productpage/ProductDescription";
 import productPageReducer from "../reducers/productPageReducer";
 import { Store } from "../store";

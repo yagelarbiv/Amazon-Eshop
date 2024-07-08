@@ -1,15 +1,20 @@
 import { Link } from "react-router-dom";
-// import Button from "react-bootstrap/Button";
+import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import ListGroup from 'react-bootstrap/ListGroup';
 import Form from 'react-bootstrap/Form';
-import { ADD_TO_CART } from "../../actions";
+import { ADD_TO_CART, REMOVE_FROM_CART } from "../../actions";
 import PropType from 'prop-types';
 
 const ItemsInCart = ({ cartItems, ctxDispatch }) => {
 
-
+const removeProductHandler = (item) => {
+  ctxDispatch({
+    type: REMOVE_FROM_CART,
+    payload: item
+  });
+}
   return (
     <div>
       <ListGroup>
@@ -18,11 +23,11 @@ const ItemsInCart = ({ cartItems, ctxDispatch }) => {
             <ListGroup.Item key={item._id}>
               <Row className="align-items-center">
                 <Col md={3}>
-                    <img
-                      src={item.image}
-                      className="img-fluid rounded img-thumbnail"
-                      alt={item.name}
-                    />
+                  <img
+                    src={item.image}
+                    className="img-fluid rounded img-thumbnail"
+                    alt={item.name}
+                  />
                 </Col>
                 <Col md={3}>
                   <Link to={`/product/${item.token}`}>{item.title}</Link>
@@ -39,7 +44,7 @@ const ItemsInCart = ({ cartItems, ctxDispatch }) => {
                       })
                     }
                   >
-                    {[...Array(item.countInStock).keys()].map((x) => (
+                    {[...Array(item.countInStock > 5 ? 5 : item.countInStock).keys()].map((x) => (
                       <option key={x + 1} value={x + 1}>
                         {x + 1}
                       </option>
@@ -47,15 +52,15 @@ const ItemsInCart = ({ cartItems, ctxDispatch }) => {
                   </Form.Control>
                 </Col>
                 <Col md={2}>
-                  {/* <Button
+                  <Button
                     variant="light"
                     disabled={item.countInStock === 0}
                     onClick={() =>
-                      removeProductHandler(item.token)
+                      removeProductHandler(item)
                     }
                   >
                     <i className="fa fa-trash"></i>
-                  </Button> */}
+                  </Button>
                 </Col>
               </Row>
             </ListGroup.Item>
