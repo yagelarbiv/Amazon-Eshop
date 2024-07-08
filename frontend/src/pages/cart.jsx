@@ -24,10 +24,10 @@ const Cart = () => {
         <div>
           <h1>{userInfo ? userInfo.name : 'Guest'}`s Shopping Cart</h1>
           <Row>
-            <Col md={9}>
+            <Col md={8}>
               <ItemsInCart cartItems={cartItems} ctxDispatch={ctxDispatch} />
             </Col>
-            <Col md={3}>
+            <Col md={4}>
               <CheckOut cartItems={cartItems} />
             </Col>
           </Row>
