@@ -15,6 +15,7 @@ import Shipping from './pages/shipping.jsx';
 import Payment from './pages/payment.jsx';
 import OrderSummaryPage from './pages/ordersummarypage.jsx';
 import OrderPage from './pages/submitorderpage.jsx';
+import SearchPage from './pages/searchpage.jsx';
 
 const App = () => {
   return (
@@ -34,7 +35,7 @@ const App = () => {
                 <Route path='/payment' element={<Payment />} />
                 <Route path='/placeorder' element={<OrderSummaryPage />} />
                 <Route path='/order/:id' element={<OrderPage />} />
-                {/* <Route path='/search' element={<SearchPage />} /> */}
+                <Route path='/search' element={<SearchPage />} />
               </Routes>
             </Container>
           </main>

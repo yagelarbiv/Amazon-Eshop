@@ -18,14 +18,13 @@ export const SearchBox = () => {
   };
 
   useEffect(() => {
-    //getFilterUrl(search);
+    getFilterUrl(search, { query: query });
     if (!query) {
       return;
     }
     const filterURI = getFilterUrl(search, { query: query });
     navigate(filterURI);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query]);
+  }, [navigate, query, search]);
 
   return (
     <Form onSubmit={(e) => submitHandler(e)} className="d-flex me-auto w-50">

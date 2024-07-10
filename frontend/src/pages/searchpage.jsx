@@ -1,5 +1,4 @@
 /* eslint-disable react-refresh/only-export-components */
-
 import { Fragment, useEffect, useReducer, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getError, getFilterUrl } from "../utils";
@@ -17,7 +16,6 @@ import Button from "react-bootstrap/Button";
 import Product from "../components/HomePage/Product";
 import { LinkContainer } from "react-router-bootstrap";
 
-
 const prices = [
   {
     name: "$1 to $50",
@@ -33,7 +31,7 @@ const prices = [
   },
 ];
 
-export const rating = [
+export const Rates = [
   {
     name: "4stars & up",
     rating: 4
@@ -54,7 +52,7 @@ export const rating = [
 
 const SearchPage = () => {
 
-  const [categories, setCategories] = useState({});
+  const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
   const { search } = useLocation();
 
@@ -82,7 +80,7 @@ const SearchPage = () => {
       } catch (error) {
         toast.error(getError(error));
       }
-    }
+    };
     getCategories();
   }, [dispatch]);
 
@@ -95,7 +93,7 @@ const SearchPage = () => {
       } catch (error) {
         dispatch({ type: GET_FAIL, payload: getError(error) });
       }
-    }
+    };
     getData();
   }, [category, query, price, rating, order, page]);
 
@@ -135,7 +133,7 @@ const SearchPage = () => {
           <div>
             <h3>Reviews</h3>
             <ul>
-              {rating.map((r) => (
+              {Rates.map((r) => (
                 <li key={r.name}>
                   <Link className={r.rating === rating ? 'text-bold' : ''} to={getFilterUrl(search, { rating: r.rating })}>
                     <Rating caption={' '} rating={r.rating} />
@@ -146,7 +144,7 @@ const SearchPage = () => {
           </div>
         </Col>
         <Col md={9}>
-          {loading ? (<Loading />) : error ? (<MessageBox variant="danger">{error}</MessageBox>) : (
+          {loading ? (<Loading />) : error ? (<MessageBox variant="danger">{error}</MessageBox>) : products ? (
             <Fragment>
               <Row className="justify-content-between mb-3">
                 <Col md={6}>
@@ -175,14 +173,14 @@ const SearchPage = () => {
                       navigate(getFilterUrl(search, { order: e.target.value }));
                     }}
                   >
-                    <option value="newest">Newest Arrivals</option>
                     <option value="lowest">Price: Low to High</option>
+                    <option value="newest">Newest Arrivals</option>
                     <option value="highest">Price: High to Low</option>
                     <option value="toprated">Customer Reviews</option>
                   </select>
                 </Col>
               </Row>
-              {products.length === 0 && <MessageBox>No Product Found</MessageBox>}
+              {products?.length === 0 && <MessageBox>No Product Found</MessageBox>}
               <Row>
                 {products.map((product) => (
                   <Col sm={6} lg={4} className="mb-3" key={product._id}>
@@ -207,6 +205,8 @@ const SearchPage = () => {
                 ))}
               </div>
             </Fragment>
+          ) : (
+            <MessageBox>No Product Found</MessageBox>
           )}
         </Col>
       </Row>
