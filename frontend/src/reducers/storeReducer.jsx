@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART, SAVE_PAYMENT_METHOD, SAVE_SHIPPING_ADDRESS, USER_LOGOUT, USER_SIGNIN } from "../actions";
+import { ADD_TO_CART, CLEAR_CART, REMOVE_FROM_CART, SAVE_PAYMENT_METHOD, SAVE_SHIPPING_ADDRESS, USER_LOGOUT, USER_SIGNIN } from "../actions";
 import PropType from 'prop-types';
 
 const storeReducer = (state, { type, payload }) => {
@@ -32,6 +32,15 @@ const storeReducer = (state, { type, payload }) => {
         cart: {
           ...state.cart,
           cartItems
+        }
+      }
+    }
+    case CLEAR_CART: {
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          cartItems: [],
         }
       }
     }

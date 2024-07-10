@@ -1,9 +1,10 @@
 import express from "express";
 import expressAsyncHandler from "express-async-handler";
 import { isAuth } from "../utils.js";
-import { addOrder } from "../controllers/orderControroller.js";
+import { addOrder, getOrderById } from "../controllers/orderControroller.js";
 
 const orderRouter = express.Router();
 orderRouter.post('/', isAuth, expressAsyncHandler(addOrder));
+orderRouter.get('/:id', isAuth, expressAsyncHandler(getOrderById));
 
 export default orderRouter;

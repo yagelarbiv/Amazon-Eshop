@@ -8,14 +8,13 @@ import Title from "../components/shared/title";
 import CheckoutSteps from '../components/shared/checkoutsteps';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import ListGroup from "react-bootstrap/ListGroup";
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import Loading from "../components/shared/Loading";
 import axios from "axios";
+import CartItemsList from "../components/orderSummaryPage/CartItemsList";
+import OrderSummary from "../components/orderSummaryPage/ordersummary";
 
 
-const OrderPage = () => {
+const OrderSummaryPage = () => {
   const [loading, setLoading] = useState(false);
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -48,6 +47,8 @@ const OrderPage = () => {
       setLoading(true);
 
       const { data } = await axios.post('/api/v1/orders', {
+        user: userInfo._id,
+        name: userInfo.name,
         orderItems: cartItems,
         shippingAddress: shippingAddress,
         paymentMethod: paymentMethod,
@@ -111,101 +112,15 @@ const OrderPage = () => {
             </Card.Body>
           </Card>
 
-          <Card className="mb-3">
-            <Card.Body>
-              <Card.Title>Items</Card.Title>
-              <Link to="/cart" className="mb-3 ">Edit</Link>
-              <ListGroup variant="flush">
-                <Row className="align-items-center mb-3">
-                  <Col md={6}>
-                    Description
-                  </Col>
-                  <Col md={3}>
-                    Quantity
-                  </Col>
-                  <Col md={3}>
-                    Price ($)
-                  </Col>
-                </Row>
-                {
-                  cartItems.map((item) => (
-                    <ListGroup.Item key={item._id}>
-                      <Row className="align-items-center">
-                        <Col md={6} className="image-container">
-                          <img
-                            src={item.image}
-                            alt={item.title}
-                            className="img-fluid rounded img-thumbnail mb-2"
-                          />{' '}
-                          <div>
-                            <Link to={`/product/${item.token}`} className="btn btn-light">{item.title}</Link>
-                          </div>
-                        </Col>
-                        <Col md={3}>
-                          <span>{item.quantity}</span>
-                        </Col>
-                        <Col md={3}>
-                          {item.quantity} x ${item.price} = ${item.price * item.quantity}
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
-                  ))
-                }
-              </ListGroup>
-            </Card.Body>
-          </Card>
+          <CartItemsList cartItems={cartItems} />
         </Col>
 
         <Col md={4}>
-          <Card>
-            <Card.Body>
-              <Card.Title>Order Summary</Card.Title>
-              <ListGroup variant="flush">
-                <ListGroup.Item>
-                  <Row>
-                    <Col>Items</Col>
-                    <Col>${cart.itemsPrice.toFixed(2)}</Col>
-                  </Row>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Row>
-                    <Col>Shipping</Col>
-                    <Col>${cart.shippingPrice.toFixed(2)}</Col>
-                  </Row>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Row>
-                    <Col>Tax</Col>
-                    <Col>${cart.taxPrice.toFixed(2)}</Col>
-                  </Row>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Row>
-                    <Col>Order Total: </Col>
-                    <Col>
-                      <strong>${cart.totalPrice.toFixed(2)}</strong>
-                    </Col>
-                  </Row>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <div className="d-grid">
-                    <Button
-                      type="button"
-                      onClick={submitOrderHandler}
-                      disabled={cart.cartItems.length === 0}
-                    >
-                      Place Order
-                    </Button>
-                  </div>
-                  {loading && <Loading />}
-                </ListGroup.Item>
-              </ListGroup>
-            </Card.Body>
-          </Card>
+          <OrderSummary cart={cart} submitOrderHandler={submitOrderHandler} loading={loading} />
         </Col>
       </Row>
     </div>
   )
 }
 
-export default OrderPage
+export default OrderSummaryPage

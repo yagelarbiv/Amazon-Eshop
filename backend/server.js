@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import seedRouter from './routes/seedRouter.js';
 import productRouter from './routes/productRouter.js';
 import userRouter from './routes/userRouter.js';
+import orderRouter from './routes/orderRouter.js';
 
 dotebv.config();
 const PORT = process.env.PORT || 8080;

@@ -1,4 +1,4 @@
-import Order from "../models/order"
+import Order from "../models/order.js";
 
 
 export const addOrder = async (req, res) => {
@@ -12,7 +12,18 @@ export const addOrder = async (req, res) => {
     totalPrice: req.body.totalPrice,
     user: req.user._id,
   });
-  
   const order = await newOrder.save();
   res.status(201).send({ message: "New Order Created", order });
 };
+
+export const getOrderById = async (req, res) => {
+  const { id } = req.params;
+  const order = await Order.findById(id);
+  console.log(id);
+  
+  if (order) {
+    res.send(order);
+  } else {
+    res.status(404).send({ message: "Order Not Found" });
+  }
+}
