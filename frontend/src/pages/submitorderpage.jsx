@@ -13,6 +13,7 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import ListGroup from 'react-bootstrap/ListGroup';
 import OrderItemsList from "../components/submoitorderpage/orderitemslist";
+import { toast } from "react-toastify";
 
 
 const OrderPage = () => {
@@ -32,10 +33,9 @@ const OrderPage = () => {
         const { data } = await axios.get(`/api/v1/orders/${id}`, {
           headers: { Authorization: `Bearer ${userInfo.token}` },
         });
-        console.log('Order data:', data);
         dispatch({ type: GET_SUCCESS, payload: data });
       } catch (err) {
-        console.log('Fetch order error:', err);
+        toast.error(getError(err));
         dispatch({ type: GET_FAIL, payload: getError(err) });
       }
     };

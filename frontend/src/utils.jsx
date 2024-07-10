@@ -25,3 +25,23 @@ export const addToCart = async (product, cartItems, ctxDispatch) => {
     throw new Error(error);
   }
 };
+
+export const getFilterUrl = (searchFromURI, filter, skipPathname) => {
+  const searchParams = new URLSearchParams(searchFromURI);
+
+  const category = searchParams.get('category') || 'all';
+  const query = searchParams.get('query') || 'all';
+  const price = searchParams.get('price') || 'all';
+  const rating = searchParams.get('rating') || 'all';
+  const order = searchParams.get('order') || 'newest';
+  const page = searchParams.get('page') || 1;
+
+  const filterPage = filter.page || page;
+  const filterCategory = filter.category || category;
+  const filterQuery = filter.query || query;
+  const filterRating = filter.rating || rating;
+  const filterPrice = filter.price || price;
+  const filterOrder = filter.order || order;
+  const link = `${skipPathname ? '' : '/search?'}?category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${filterOrder}&page=${filterPage}`;
+  return link;
+}
