@@ -58,17 +58,6 @@ const Payment = () => {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="CreditCard">
-            <Form.Check
-              type="radio"
-              id="CreditCard"
-              label="CreditCard"
-              value="CreditCard"
-              checked={payment === 'CreditCard'}
-              onChange={(e) => setPayment(e.target.value)}
-            />
-          </Form.Group>
-
           <Form.Group className="mb-3" controlId="PayPal">
             <Form.Check
               type="radio"
