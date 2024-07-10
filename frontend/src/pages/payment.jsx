@@ -32,7 +32,7 @@ const Payment = () => {
       navigate('/');
     }
     if (!userInfo) {
-      navigate('/signin?redirect=/shipping');
+      navigate('/signin?redirect=/payment');
     }
     if (!shippingAddress.address) {
       navigate('/shipping');
