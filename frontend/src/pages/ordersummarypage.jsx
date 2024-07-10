@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { CLEAR_CART } from "../actions";
 import { getError } from "../utils";
 import Title from "../components/shared/title";
-import CheckoutSteps from './../components/shared/checkoutsteps';
+import CheckoutSteps from '../components/shared/checkoutsteps';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -131,14 +131,14 @@ const OrderPage = () => {
                   cartItems.map((item) => (
                     <ListGroup.Item key={item._id}>
                       <Row className="align-items-center">
-                        <Col md={6}>
+                        <Col md={6} className="image-container">
                           <img
                             src={item.image}
                             alt={item.title}
-                            className="img-fluid rounded img-thumbnail"
+                            className="img-fluid rounded img-thumbnail mb-2"
                           />{' '}
                           <div>
-                            <Link to={`/product/${item.token}`}>{item.title}</Link>
+                            <Link to={`/product/${item.token}`} className="btn btn-light">{item.title}</Link>
                           </div>
                         </Col>
                         <Col md={3}>
