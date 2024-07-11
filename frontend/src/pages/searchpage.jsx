@@ -89,6 +89,7 @@ const SearchPage = () => {
       dispatch({ type: GET_REQUEST });
       try {
         const { data } = await axios.get(`/api/v1/products/search?page=${page}&query=${query}&category=${category}&price=${price}&rating=${rating}&order=${order}`);
+        console.log(data.products);
         dispatch({ type: GET_SUCCESS, payload: data });
       } catch (error) {
         dispatch({ type: GET_FAIL, payload: getError(error) });

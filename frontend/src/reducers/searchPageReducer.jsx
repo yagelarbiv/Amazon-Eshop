@@ -5,7 +5,7 @@ const searchPageReducer = (state, { type, payload }) => {
     case GET_REQUEST:
       return { ...state, loading: true };
     case GET_SUCCESS:
-      return { ...state, loading: false, products: payload, page: payload.page, pages: payload.pages, countProducts: payload.countProducts };
+      return { ...state, loading: false, products: payload.products, page: payload.page, pages: payload.pages, countProducts: payload.countProducts };
     case GET_FAIL:
       return { ...state, loading: false, error: payload };
     default:

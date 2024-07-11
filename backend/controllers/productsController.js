@@ -38,9 +38,16 @@ export const getCategories = async (req, res) => {
 };
 
 export const getProductByCategories = async (req, res) => {
-    console.log("Pulling products by query");
     const searchParams = new URLSearchParams(req.query);
     let products = await Product.find({});
+    let ProductsPerPage = 5;
+    let productsInPage = [];
+    let numberOfPages = Math.ceil(products.length / ProductsPerPage); 
+    const currentPage = Number(searchParams.get("page")) || 1;
+
+    if (currentPage > numberOfPages) {
+        return res.status(404).send({ message: "Page Not Found" });
+    };
 
     if (searchParams.get("category") && searchParams.get("category") !== "all") {
         products = products.filter(
@@ -51,8 +58,7 @@ export const getProductByCategories = async (req, res) => {
     if (searchParams.get("query") && searchParams.get("query") !== "all") {
         products = products.filter(
         (x) =>
-            x.title.includes(searchParams.get("query")) ||
-            x.description.includes(searchParams.get("query"))
+            x.title.includes(searchParams.get("query"))
         );
     };
 
@@ -86,16 +92,15 @@ export const getProductByCategories = async (req, res) => {
         );
     };
 
-    if (searchParams.get("page")) {
-        const page = parseInt(searchParams.get("page"));
-        const pageSize = 10; 
-        const startIndex = (page - 1) * pageSize;
-        const endIndex = startIndex + pageSize;
-        products = products.slice(startIndex, endIndex);
+    if (searchParams.get("page") && products.length > ProductsPerPage ) {
+        const startIndex = (currentPage - 1) * ProductsPerPage;
+        const endIndex = startIndex + ProductsPerPage;
+        productsInPage = products.slice(startIndex, endIndex);
+        numberOfPages = Math.ceil(products.length / ProductsPerPage);
     };
 
     if (products.length > 0) {
-        res.send(products);
+        res.send({products: productsInPage, pages: numberOfPages, page: currentPage, countProducts: products.length});
     } else {
         res.status(404).send({ message: "Products Not Found" });
     }
