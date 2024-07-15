@@ -94,7 +94,7 @@ const SearchPage = () => {
       <Title title="Search products" />
       <Row>
         <Col md={3}>
-          <div>
+          <Fragment>
             <h3>Category</h3>
             <ul>
               <li>
@@ -106,8 +106,8 @@ const SearchPage = () => {
                 </li>
               ))}
             </ul>
-          </div>
-          <div>
+          </Fragment>
+          <Fragment>
             <h3>Price</h3>
             <ul>
               <li>
@@ -119,8 +119,8 @@ const SearchPage = () => {
                 </li>
               ))}
             </ul>
-          </div>
-          <div>
+          </Fragment>
+          <Fragment>
             <h3>Reviews</h3>
             <ul>
               {Rates.map((r) => (
@@ -131,14 +131,14 @@ const SearchPage = () => {
                 </li>
               ))}
             </ul>
-          </div>
+          </Fragment>
         </Col>
         <Col md={9}>
           {loading ? (<Loading />) : error ? (<MessageBox variant="danger">{error}</MessageBox>) : products ? (
             <Fragment>
               <Row className="justify-content-between mb-3">
                 <Col md={6}>
-                  <div>
+                  <Fragment>
                     {countProducts === 0 ? 'No' : countProducts} Results
                     {query !== 'all' && ' : ' + query}
                     {category !== 'all' && ' : ' + category}
@@ -150,10 +150,11 @@ const SearchPage = () => {
                         query: 'all',
                         rating: 'all',
                         price: 'all',
-                        order: 'newest'
-                      }))}> <i className="fas fa-times-circle"></i> </Button>
+                        order: 'newest',
+                        page: 1
+                      }))}> <i className="fas fa-times-circle"></i></Button>
                     ) : null}
-                  </div>
+                  </Fragment>
                 </Col>
                 <Col className="text-end">
                   Sort by{' '}
@@ -178,7 +179,7 @@ const SearchPage = () => {
                   </Col>
                 ))}
               </Row>
-              <div>
+              <Fragment>
                 {[...Array(pages).keys()].map((x) => (
                   <LinkContainer
                     key={x + 1}
@@ -193,7 +194,7 @@ const SearchPage = () => {
                     </Button>
                   </LinkContainer>
                 ))}
-              </div>
+              </Fragment>
             </Fragment>
           ) : (
             <MessageBox>No Product Found</MessageBox>
