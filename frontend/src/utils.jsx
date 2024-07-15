@@ -3,7 +3,6 @@ import { ADD_TO_CART } from './actions';
 import { toast } from "react-toastify";
 
 export const getError = (error) => {
-  console.log(error);
   return (error.message && error.response?.data?.message ? error.response.data.message : error.message);
 }
 

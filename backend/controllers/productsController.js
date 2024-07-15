@@ -1,3 +1,4 @@
+import { title } from "process";
 import Product from "../models/Product.js";
 
 export const getProducts = async (req, res) => {
@@ -30,78 +31,65 @@ export const updateProductQuantity = async (req, res) => {
   }
 };
 
-export const getCategories = async (req, res) => {
-    console.log("pulling Categories");
-    const categories = await Product.find().distinct("category");
-    if (categories) res.send(categories);
-    else res.status(404).send({ message: "Categories Not Found" });
-};
+export const getProductByQuery = async (req, res) => {
+    const { query } = req;
+    const pageSize = query.pageSize || process.env.PAGE_SIZE;
+    const page = query.page || 1;
+    const category = query.category || "";
+    const price = query.price || "";
+    const rating = query.rating || "";
+    const order = query.order || "";
+    const searchQuery = query.query || "";
+    const queryFilter =
+    searchQuery && searchQuery !== "all"
+        ? {
+            title: {
+                $regex: searchQuery,
+                $options: "i",
+            }
+        }
+        : {};
+    const categoryFilter = category && category !== "all" ? { category } : {};
+    const ratingFilter = rating && rating !== "all" ? { 'rating.rate':{ $gte: Number(rating) } } : {};
+    const priceFilter = 
+    price && price !== "all" ? 
+    { 
+        price: { 
+            $gte: Number(price.split("-")[0]), 
+            $lte: Number(price.split("-")[1]) 
+        } 
+    } : {};
 
-export const getProductByCategories = async (req, res) => {
-    const searchParams = new URLSearchParams(req.query);
-    let products = await Product.find({});
-    let ProductsPerPage = 5;
-    let productsInPage = [];
-    let numberOfPages = Math.ceil(products.length / ProductsPerPage); 
-    const currentPage = Number(searchParams.get("page")) || 1;
+    const sortOrder =
+    order === "lowest"
+        ? { price : 1 }
+        : order === "highest"
+        ? { price: -1 }
+        : order === "toprated"
+        ? { rating: -1 }
+        : order === "newest"
+        ? { createdAt: -1 }
+        : { _id: -1 };
 
-    if (currentPage > numberOfPages) {
-        return res.status(404).send({ message: "Page Not Found" });
-    };
+    const products = await Product.find({ 
+        ...queryFilter, 
+        ...categoryFilter, 
+        ...priceFilter, 
+        ...ratingFilter })
+        .sort(sortOrder).skip(pageSize * (page - 1))
+        .limit(pageSize);
 
-    if (searchParams.get("category") && searchParams.get("category") !== "all") {
-        products = products.filter(
-        (x) => x.category === searchParams.get("category")
-        );
-    };
+    const countProducts = await Product.countDocuments({ 
+        ...queryFilter, 
+        ...categoryFilter, 
+        ...priceFilter, 
+        ...ratingFilter });
 
-    if (searchParams.get("query") && searchParams.get("query") !== "all") {
-        products = products.filter(
-        (x) =>
-            x.title.includes(searchParams.get("query"))
-        );
-    };
+    res.send({
+        products,
+        countProducts,
+        page,
+        pages: Math.ceil(countProducts / pageSize),
+    });
 
-    if (searchParams.get("price") && searchParams.get("price") !== "all") {
-        const prices = searchParams.get("price").split("-")
-        products = products.filter(
-        (x) => x.price >= prices[0] && x.price <= prices[1]
-        );
-    };
-
-    if (searchParams.get("rating")  && searchParams.get("rating") !== "all") {
-        products = products.filter(
-        (x) => x.rating === parseInt(searchParams.get("rating"))
-        );
-    };
-
-    if (searchParams.get("order")) {
-        const order = searchParams.get("order");
-        products = products.sort((a, b) =>
-            order === "lowest"
-            ? a.price > b.price
-                ? 1
-                : -1
-            : order === "highest"
-            ? a.price < b.price
-                ? 1
-                : -1
-            : a._id < b._id
-                ? 1
-                : -1
-        );
-    };
-
-    if (searchParams.get("page") && products.length > ProductsPerPage ) {
-        const startIndex = (currentPage - 1) * ProductsPerPage;
-        const endIndex = startIndex + ProductsPerPage;
-        productsInPage = products.slice(startIndex, endIndex);
-        numberOfPages = Math.ceil(products.length / ProductsPerPage);
-    };
-
-    if (products.length > 0) {
-        res.send({products: productsInPage, pages: numberOfPages, page: currentPage, countProducts: products.length});
-    } else {
-        res.status(404).send({ message: "Products Not Found" });
-    }
 };

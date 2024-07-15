@@ -67,7 +67,7 @@ const SearchPage = () => {
   useEffect(() => {
     const getCategories = async () => {
       try {
-        const { data } = await axios.get(`/api/v1/products/categories`);
+        const { data } = await axios.get(`/api/v1/categories`);
         setCategories(data);
       } catch (error) {
         toast.error(getError(error));
