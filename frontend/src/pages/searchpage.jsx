@@ -13,8 +13,8 @@ import Rating from "../components/shared/Rating";
 import Loading from "../components/shared/Loading";
 import MessageBox from "../components/shared/MessageBox";
 import Button from "react-bootstrap/Button";
-import Product from "../components/HomePage/Product";
 import { LinkContainer } from "react-router-bootstrap";
+import Product from './../components/shared/Product';
 
 const prices = [
   {
