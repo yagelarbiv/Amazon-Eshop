@@ -29,12 +29,7 @@ export const addToCart = async (product, cartItems, ctxDispatch) => {
 export const getFilterUrl = (searchFromURI, filter, skipPathname) => {
   const searchParams = new URLSearchParams(searchFromURI);
 
-  const category = searchParams.get('category') || 'all';
-  const query = searchParams.get('query') || 'all';
-  const price = searchParams.get('price') || 'all';
-  const rating = searchParams.get('rating') || 'all';
-  const order = searchParams.get('order') || 'newest';
-  const page = searchParams.get('page') || 1;
+  const { category, query, price, rating, order, page } = splitFilter(searchParams);
 
   const filterPage = filter.page || page;
   const filterCategory = filter.category || category;
@@ -43,5 +38,17 @@ export const getFilterUrl = (searchFromURI, filter, skipPathname) => {
   const filterPrice = filter.price || price;
   const filterOrder = filter.order || order;
   const link = `${skipPathname ? '' : '/search?'}category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${filterOrder}&page=${filterPage}`;
+
   return link;
+};
+
+export const splitFilter = (searchParams) => {
+  const category = searchParams.get('category') || 'all';
+  const query = searchParams.get('query') || 'all';
+  const price = searchParams.get('price') || 'all';
+  const rating = searchParams.get('rating') || 'all';
+  const order = searchParams.get('order') || 'newest';
+  const page = searchParams.get('page') || 1;
+
+  return { category, query, price, rating, order, page };
 }

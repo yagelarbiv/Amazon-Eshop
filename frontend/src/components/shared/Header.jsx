@@ -1,12 +1,12 @@
+import { useContext } from 'react';
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import NavBar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import { LinkContainer } from "react-router-bootstrap";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { SearchBox } from "./SearchBox";
 import NavDropDown from "react-bootstrap/NavDropdown";
-import { Store } from "../../store.jsx";
-import { useContext } from 'react';
 import Badge from 'react-bootstrap/Badge';
+import { SearchBox } from "./SearchBox";
+import { Store } from "../../store.jsx";
 import { USER_LOGOUT } from "../../actions.jsx";
 
 const Header = () => {

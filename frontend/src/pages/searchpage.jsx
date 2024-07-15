@@ -1,7 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { Fragment, useEffect, useReducer, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { getError, getFilterUrl } from "../utils";
+import { getError, getFilterUrl, splitFilter } from "../utils";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { GET_FAIL, GET_REQUEST, GET_SUCCESS } from "../actions";
@@ -51,25 +51,17 @@ export const Rates = [
 ]
 
 const SearchPage = () => {
-
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
   const { search } = useLocation();
 
   const searchParams = new URLSearchParams(search);
-  const category = searchParams.get('category') || 'all';
-  const query = searchParams.get('query') || 'all';
-  const price = searchParams.get('price') || 'all';
-  const rating = searchParams.get('rating') || 'all';
-  const order = searchParams.get('order') || 'newest';
-  const page = searchParams.get('page') || 1;
+  const { category, query, price, rating, order, page } = splitFilter(searchParams);
+
 
   const [{ loading, error, products, pages, countProducts }, dispatch] = useReducer(searchPageReducer, {
     loading: true,
     error: '',
-    products: [],
-    pages: 0,
-    countProducts: 0
   });
 
   useEffect(() => {
@@ -89,7 +81,6 @@ const SearchPage = () => {
       dispatch({ type: GET_REQUEST });
       try {
         const { data } = await axios.get(`/api/v1/products/search?page=${page}&query=${query}&category=${category}&price=${price}&rating=${rating}&order=${order}`);
-        console.log(data.products);
         dispatch({ type: GET_SUCCESS, payload: data });
       } catch (error) {
         dispatch({ type: GET_FAIL, payload: getError(error) });
@@ -97,8 +88,6 @@ const SearchPage = () => {
     };
     getData();
   }, [category, query, price, rating, order, page]);
-
-
 
   return (
     <div>
