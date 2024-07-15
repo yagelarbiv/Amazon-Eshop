@@ -74,7 +74,7 @@ const SearchPage = () => {
       }
     };
     getCategories();
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     const getData = async () => {
