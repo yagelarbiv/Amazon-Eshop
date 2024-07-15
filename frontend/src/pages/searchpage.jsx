@@ -94,8 +94,8 @@ const SearchPage = () => {
       <Title title="Search products" />
       <Row>
         <Col md={3}>
-          <h3>Category</h3>
           <div>
+            <h3>Category</h3>
             <ul>
               <li>
                 <Link className={'all' === category ? 'text-bold' : ''} to={getFilterUrl(search, { category: 'all' })}>Any</Link>
