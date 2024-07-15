@@ -8,7 +8,7 @@ const storeReducer = (state, { type, payload }) => {
       return {
         ...state,
         userInfo: payload
-      }
+    }
     case ADD_TO_CART: {
       const newItem = payload;
       const existingItem = state.cart.cartItems.find((item) => item._id === newItem._id);
