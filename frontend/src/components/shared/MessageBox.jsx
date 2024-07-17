@@ -8,7 +8,7 @@ const MessageBox = ({children, variant}) => {
 };
 
 MessageBox.propTypes = {
-  children: PropTypes.any,
+  children: PropTypes.node,
   variant: PropTypes.string
 };
 

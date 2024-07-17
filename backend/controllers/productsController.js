@@ -49,8 +49,12 @@ export const getProductByQuery = async (req, res) => {
             }
         }
         : {};
-    const categoryFilter = category && category !== "all" ? { category } : {};
-    const ratingFilter = rating && rating !== "all" ? { 'rating.rate':{ $gte: Number(rating) } } : {};
+    const categoryFilter = category && category !== "all" ? {
+      category 
+    } : {};
+    const ratingFilter = rating && rating !== "all" ? {
+      'rating.rate':{ $gte: Number(rating) } 
+    } : {};
     const priceFilter = 
     price && price !== "all" ? 
     { 
@@ -76,7 +80,8 @@ export const getProductByQuery = async (req, res) => {
         ...categoryFilter, 
         ...priceFilter, 
         ...ratingFilter })
-        .sort(sortOrder).skip(pageSize * (page - 1))
+        .sort(sortOrder)
+        .skip(pageSize * (page - 1))
         .limit(pageSize);
 
     const countProducts = await Product.countDocuments({ 

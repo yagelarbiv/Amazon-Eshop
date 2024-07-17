@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 const GET_REQUEST = "GET_REQUEST";
 const GET_SUCCESS = "GET_SUCCESS";
 const GET_FAIL = "GET_FAIL";
@@ -14,6 +15,8 @@ const CLEAR_CART = "CLEAR_CART";
 const SAVE_SHIPPING_ADDRESS = "SAVE_SHIPPING_ADDRESS";
 const SAVE_PAYMENT_METHOD = "SAVE_PAYMENT_METHOD";
 
+const FILLTER = "FILLTER"
+
 export {
   GET_REQUEST,
   GET_SUCCESS,
@@ -26,4 +29,5 @@ export {
   SAVE_PAYMENT_METHOD,
   CLEAR_CART,
   SAVE_ON_STORAGE,
+  FILLTER,
 }

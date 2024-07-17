@@ -15,7 +15,9 @@ import Shipping from './pages/shipping.jsx';
 import Payment from './pages/payment.jsx';
 import OrderSummaryPage from './pages/ordersummarypage.jsx';
 import OrderPage from './pages/submitorderpage.jsx';
-import SearchPage from './pages/searchpage.jsx';
+import SearchPage from './pages/searchpagebyserver.jsx';
+import FillterChoice from './pages/FillterChoice.jsx';
+// import SearchPageByClient from './pages/searchpagebyclient.jsx';
 
 const App = () => {
   return (
@@ -36,6 +38,8 @@ const App = () => {
                 <Route path='/placeorder' element={<OrderSummaryPage />} />
                 <Route path='/order/:id' element={<OrderPage />} />
                 <Route path='/search' element={<SearchPage />} />
+                {/* <Route path='/searchclient' element={<SearchPageByClient />} /> */}
+                <Route path='/fillter' element={<FillterChoice />} />
               </Routes>
             </Container>
           </main>

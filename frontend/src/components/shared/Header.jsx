@@ -48,12 +48,12 @@ const Header = () => {
             </NavBar.Brand>
           </LinkContainer>
           {" "}
-          {<SearchBox />}
+          <SearchBox />
           <nav className="d-flex align-items-center justify-content-end me-2 ms-4">
             <Link to="/cart" className="nav-link me-2 position-relative">
               <i className="fas fa-shopping-cart text-white"></i>
               {
-                cartItems.length > 0 && (
+                cartItems.length > 0 &&  (
                   <Badge pill bg="danger" className="position-absolute top-0 translate-middle" text="light" >
                     {cartItems.reduce((a, c) => a + c.quantity, 0)}
                   </Badge>
@@ -69,6 +69,9 @@ const Header = () => {
                 </LinkContainer>
                 <LinkContainer to="/orderhistory">
                   <NavDropDown.Item>Order History</NavDropDown.Item>
+                </LinkContainer>
+                <LinkContainer to="/fillter">
+                  <NavDropDown.Item>Choose Fillter</NavDropDown.Item>
                 </LinkContainer>
                 <NavDropDown.Divider />
                 <Link

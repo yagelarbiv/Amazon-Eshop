@@ -74,7 +74,7 @@ const Payment = () => {
         </Form>
       </Container>
     </div>
-  )
-}
+  );
+};
 
 export default Payment
