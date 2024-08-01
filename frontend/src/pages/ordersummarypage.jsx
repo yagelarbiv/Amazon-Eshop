@@ -11,14 +11,13 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import axios from "axios";
 import CartItemsList from "../components/orderSummaryPage/CartItemsList";
-import OrderSummary from "../components/orderSummaryPage/ordersummary";
+import OrderSummary from "../components/shared/ordersummary";
 
 
 const OrderSummaryPage = () => {
   const [loading, setLoading] = useState(false);
 
-  const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { userInfo, cart, } = state
+  const { state:{ userInfo, cart, }, dispatch: ctxDispatch } = useContext(Store);
   const { paymentMethod, cartItems, shippingAddress } = cart;
   const navigate = useNavigate();
 

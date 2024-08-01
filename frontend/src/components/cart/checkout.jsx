@@ -35,7 +35,7 @@ const CheckOut = ({ cartItems, checkoutHandler }) => {
         </Card.Body>
       </Card>
     </div >
-  )
+  );
 };
 
 CheckOut.propTypes = {
@@ -43,4 +43,4 @@ CheckOut.propTypes = {
   checkoutHandler: PropType.func
 };
 
-export default CheckOut
+export default CheckOut;

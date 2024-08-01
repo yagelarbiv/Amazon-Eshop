@@ -13,7 +13,6 @@ import { addToCart, getError } from '../utils';
 import axios from 'axios';
 import { GET_FAIL, GET_REQUEST, GET_SUCCESS } from '../actions';
 
-
 const initialState = {
   loading: true,
   error: "",

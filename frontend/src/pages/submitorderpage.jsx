@@ -11,9 +11,9 @@ import { getError } from "../utils";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
-import ListGroup from 'react-bootstrap/ListGroup';
 import OrderItemsList from "../components/submoitorderpage/orderitemslist";
 import { toast } from "react-toastify";
+import OrderSummary from "../components/shared/ordersummary";
 
 
 const OrderPage = () => {
@@ -50,6 +50,7 @@ const OrderPage = () => {
     }
   }, [navigate, id, userInfo, order]);
 
+  console.log(order);
 
   return (
     <div>
@@ -97,43 +98,8 @@ const OrderPage = () => {
 
                 <OrderItemsList order={order} />
               </Col>
-
               <Col md={4}>
-                <Card className="mb-3">
-                  <Card.Body>
-                    <Card.Title>Order Summary</Card.Title>
-                    <ListGroup variant="flush">
-                      <ListGroup.Item>
-                        <Row>
-                          <Col>Items</Col>
-                          <Col>${order.itemsPrice.toFixed(2)}</Col>
-                        </Row>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <Row>
-                          <Col>Shipping</Col>
-                          <Col>${order.shippingPrice.toFixed(2)}</Col>
-                        </Row>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <Row>
-                          <Col>Tax</Col>
-                          <Col>${order.taxPrice.toFixed(2)}</Col>
-                        </Row>
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <Row>
-                          <Col>
-                            <strong> Order Total</strong>
-                          </Col>
-                          <Col>
-                            <strong>${order.totalPrice.toFixed(2)}</strong>
-                          </Col>
-                        </Row>
-                      </ListGroup.Item>
-                    </ListGroup>
-                  </Card.Body>
-                </Card>
+                <OrderSummary cart={order} submitOrderHandler={null} />
               </Col>
             </Row>
           </div>

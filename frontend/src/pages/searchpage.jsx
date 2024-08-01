@@ -58,7 +58,6 @@ const SearchPage = () => {
   const searchParams = new URLSearchParams(search);
   const { category, query, price, rating, order, page } = splitFilter(searchParams);
 
-
   const [{ loading, error, products, pages, countProducts }, dispatch] = useReducer(searchPageReducer, {
     loading: true,
     error: '',

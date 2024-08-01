@@ -7,8 +7,6 @@ import Form from 'react-bootstrap/Form';
 import PropType from 'prop-types';
 
 const ItemsInCart = ({ cartItems, removeProductHandler, updateCartHandler }) => {
-
-
   return (
     <div>
       <ListGroup>

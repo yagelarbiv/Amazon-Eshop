@@ -3,7 +3,7 @@ import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 import Card from "react-bootstrap/Card";
 import PropTypes from "prop-types";
-import Loading from "../shared/Loading";
+import Loading from "./Loading";
 import Button from "react-bootstrap/Button";
 
 const OrderSummary = ({ cart, submitOrderHandler, loading }) => {

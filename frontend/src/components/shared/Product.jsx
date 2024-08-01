@@ -26,16 +26,20 @@ const Product = ({ product }) => {
       <Link to={`/product/${product.token}`}>
         <Card.Img style={{ padding: "20px" }} variant="top" src={product.image} alt={product.title} />
       </Link>
+      
       <Card.Body className="card-body">
-        <Card.Title className="max-h-6">
+        <Card.Title>
           <Link to={`/product/${product.token}`}>
             {product.title}
           </Link>
         </Card.Title>
+        
         <Rating rating={product.rating.rate} numReviews={product.rating.count} />
+
         <Card.Text>
           {product.price}$
         </Card.Text>
+        
         {
           product.countInStock > 0
             ? <Button className="btn-primary" onClick={() => addToCartHandler(product, cartItems, ctxDispatch)}>Add to cart</Button>
